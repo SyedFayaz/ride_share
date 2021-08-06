@@ -263,16 +263,10 @@
         "type": "object",
         "properties": {
           "start": {
-            "type": "object",
-            "items": {
-              "$ref": "#/components/schemas/Location"
-            }
+            "$ref": "#/components/schemas/Location"
           },
           "end": {
-            "type": "object",
-            "items": {
-              "$ref": "#/components/schemas/Location"
-            }
+            "$ref": "#/components/schemas/Location"
           }
         }
       },
