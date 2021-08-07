@@ -72,6 +72,24 @@
               "type": "number",
               "format": "double"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "number",
+              "format": "int"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of records to send for each page",
+            "schema": {
+              "type": "number",
+              "format": "int"
+            }
           }
         ],
         "responses": {
@@ -82,7 +100,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Location"
+                    "$ref": "#/components/schemas/Cab"
                   }
                 }
               }
@@ -160,7 +178,7 @@
         "requestBody": {
           "description": "Contains pickup and dropoff location",
           "content": {
-            "*/*": {
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Booking"
               }
@@ -280,6 +298,17 @@
           "longitude": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "Cab": {
+        "type": "object",
+        "properties": {
+          "cabNumber": {
+            "type": "string"
+          },
+          "currentLocation": {
+            "$ref": "#/components/schemas/Location"
           }
         }
       },
