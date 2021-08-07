@@ -3,19 +3,31 @@ import { IBookRequest } from "../interfaces";
 
 export default class BookService {
     async bookCab(request: IBookRequest) {
-        let bookRequest = {
-            start: { type: "Point", coordinates: [request.start.longitude, request.start.latitude] },
-            end: { type: "Point", coordinates: [request.end.longitude, request.end.latitude] },
-            bookedBy: request.bookedBy
+        let response, error;
+        try {
+            let bookRequest = {
+                start: { type: "Point", coordinates: [request.start.longitude, request.start.latitude] },
+                end: { type: "Point", coordinates: [request.end.longitude, request.end.latitude] },
+                bookedBy: request.bookedBy
+            }
+            response = await BookModel.create(bookRequest);
+        } catch (exception) {
+            console.log("Exception occured:", exception);
+            error = exception;
         }
-        const response = await BookModel.create(bookRequest);
-        return response;
+        return { data: response, error: error };
     }
 
     async getBookings(pageOptions: { page: number, limit: number }) {
-        const result = await BookModel.find({})
-            .skip(pageOptions.page * pageOptions.limit)
-            .limit(pageOptions.limit);
-        return result;
+        let response, error;
+        try {
+            response = await BookModel.find({})
+                .skip(pageOptions.page * pageOptions.limit)
+                .limit(pageOptions.limit);
+        } catch (exception) {
+            console.log("Exception occured:", exception);
+            error = exception;
+        }
+        return { data: response, error: error };
     }
 }

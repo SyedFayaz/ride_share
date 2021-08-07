@@ -16,7 +16,7 @@ export class Middleware {
             },
         }));
         app.use(Router);
-        app.use(function notFoundHandler(_req, res) {
+        app.use(function notFoundHandler(req, res) {
             res.status(404).send({
                 message: "Not Found",
             });

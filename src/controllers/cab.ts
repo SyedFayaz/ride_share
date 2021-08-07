@@ -5,7 +5,7 @@ export default class CabController {
         let sanitisedParam = this.sanitise(param);
         let request = this.prepareRequest(sanitisedParam);
         let cabService = new CabService();
-        return cabService.getNearbyCabs(request);
+        return await cabService.getNearbyCabs(request);
     }
 
     private sanitise(param) {

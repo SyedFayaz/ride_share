@@ -37,7 +37,17 @@ describe("@bookService", () => {
             createStub.resolves({ created: "ok" });
             let response = await service.bookCab(bookingData);
 
-            expect(response).to.deep.equal({ created: "ok" });
+            expect(response.data).to.deep.equal({ created: "ok" });
+            Sinon.assert.calledWith(createStub, bookRequest);
+        });
+
+        it("should catch exception", async () => {
+            let service = new BookService();
+            createStub.rejects({ "error": "create failed" });
+
+            let response = await service.bookCab(bookingData);
+
+            expect(response.error).to.deep.equal({ "error": "create failed" });
             Sinon.assert.calledWith(createStub, bookRequest);
         });
     });
@@ -55,7 +65,16 @@ describe("@bookService", () => {
                 }
             })
             let response = await service.getBookings({ page: 0, limit: 0 });
-            expect(response).to.deep.equal(bookingData);
+            expect(response.data).to.deep.equal(bookingData);
+            Sinon.assert.calledWith(findStub, {})
+        });
+        it("should catch exception", async () => {
+            let service = new BookService();
+            findStub.throws({ "error": "operation failed" });
+
+            let response = await service.getBookings({ page: 0, limit: 0 });
+
+            expect(response.error).to.deep.equal({ "error": "operation failed" });
             Sinon.assert.calledWith(findStub, {})
         });
     });

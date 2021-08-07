@@ -4,7 +4,7 @@ import { IBookRequest } from "../interfaces";
 export default class BookController {
     public async bookCab(requestBody: IBookRequest): Promise<any> {
         let bookService = new BookService();
-        return bookService.bookCab(requestBody);
+        return await bookService.bookCab(requestBody);
     }
 
     public async getBookings(param?: any) {
@@ -13,7 +13,7 @@ export default class BookController {
             limit: parseInt(param?.limit) || 0
         }
         let bookService = new BookService();
-        return bookService.getBookings(pageOptions);
+        return await bookService.getBookings(pageOptions);
     }
 }
 

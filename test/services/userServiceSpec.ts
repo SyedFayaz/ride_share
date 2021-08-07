@@ -38,16 +38,16 @@ describe("@userService", () => {
 
             let response = await service.signup(request);
 
-            expect(response).to.deep.equal({ token: "JWT-token-string" });
+            expect(response.data).to.deep.equal({ token: "JWT-token-string" });
             Sinon.assert.calledWith(createStub, request);
         });
-        it("should throw exception", async () => {
+        it("should catch exception", async () => {
             let service = new UserService();
             createStub.rejects({ "error": "create failed" });
 
             let response = await service.signup(request);
 
-            expect(response).to.deep.equal({ "error": "create failed" });
+            expect(response.error).to.deep.equal({ "error": "create failed" });
             Sinon.assert.calledWith(createStub, request);
         });
     });
@@ -69,7 +69,7 @@ describe("@userService", () => {
 
             let response = await service.login(request);
 
-            expect(response).to.deep.equal(undefined);
+            expect(response.data).to.deep.equal(undefined);
             Sinon.assert.calledWith(findoneStub, { email: request.email });
         });
         it("should login user when credentials are correct", async () => {
@@ -80,16 +80,16 @@ describe("@userService", () => {
 
             let response = await service.login(request);
 
-            expect(response).to.deep.equal({ token: "JWT-token-string" });
+            expect(response.data).to.deep.equal({ token: "JWT-token-string" });
             Sinon.assert.calledWith(findoneStub, { email: request.email });
         });
-        it("should throw exception", async () => {
+        it("should catch exception", async () => {
             let service = new UserService();
             findoneStub.rejects({ error: "Something went wrong" });
 
             let response = await service.login(request);
 
-            expect(response).to.deep.equal({ error: "Something went wrong" });
+            expect(response.error).to.deep.equal({ error: "Something went wrong" });
             Sinon.assert.calledWith(findoneStub, { email: request.email });
         });
     });

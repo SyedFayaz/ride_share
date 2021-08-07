@@ -39,7 +39,17 @@ describe("@cabService", () => {
             });
             let response = await service.getNearbyCabs(request);
 
-            expect(response).to.deep.equal({ "cabNumber": "AECY8976" });
+            expect(response.data).to.deep.equal({ "cabNumber": "AECY8976" });
+            Sinon.assert.calledWith(findStub, {});
+        });
+
+        it("should catch exception", async () => {
+            let service = new CabService();
+            findStub.throws({ error: "Something went wrong" });
+
+            let response = await service.getNearbyCabs(request);
+
+            expect(response.error).to.deep.equal({ error: "Something went wrong" });
             Sinon.assert.calledWith(findStub, {});
         });
     });
