@@ -1,15 +1,30 @@
-import CabService from "../services/CabService";
+import CabService from "../services/cabService";
 export default class CabController {
 
-    async getNearbyCabs(param: any) {
-        let options = {
-            coordinates: [parseFloat(param.longitude), parseFloat(param.latitude)],
-            maxDistanceInMeters: parseFloat(param.maxDistance),
+    async getNearbyCabs(param) {
+        let sanitisedParam = this.sanitise(param);
+        let request = this.prepareRequest(sanitisedParam);
+        let cabService = new CabService();
+        return cabService.getNearbyCabs(request);
+    }
+
+    private sanitise(param) {
+        return {
+            longitude: parseFloat(param.longitude),
+            latitude: parseFloat(param.latitude),
+            maxDistance: parseFloat(param.maxDistance),
+            page: parseInt(param.page) || 0,
+            limit: parseInt(param.limit) || 0
+        }
+    }
+
+    private prepareRequest(request) {
+        return {
+            coordinates: [request.longitude, request.latitude],
+            maxDistanceInMeters: request.maxDistance,
             pageOptions: {
-                page: 0, limit: 0
+                page: request.page, limit: request.limit
             }
         }
-        let cabService = new CabService();
-        return cabService.getNearbyCabs(options);
     }
 }

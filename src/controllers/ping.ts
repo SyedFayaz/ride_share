@@ -5,7 +5,7 @@ interface PingResponse {
 export default class PingController {
   public async getMessage(): Promise<PingResponse> {
     return {
-      data: "Healthy",
+      data: "ok",
     };
   }
 }

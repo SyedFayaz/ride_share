@@ -2,16 +2,31 @@
   "name": "ride_share",
   "version": "1.0.0",
   "description": "An express application to book ride",
-  "main": "dist/src/app.js",
+  "main": "dist/app.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SyedFayaz/ride_share.git"
   },
   "scripts": {
-    "start": "node dist/src/app.js",
+    "start": "node dist/app.js",
     "build": "tsc",
     "setup": "npm ci && npm run build",
-    "test": "mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "mocha -r ts-node/register 'test/**/*.ts'",
+    "coverage": "nyc npm run test"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "src/routes/*.ts"
+    ],
+    "reporter": [
+      "text"
+    ]
   },
   "author": "syedfayaz28@gmail.com",
   "license": "ISC",
@@ -23,6 +38,7 @@
     "@types/morgan": "^1.9.3",
     "chai": "^4.3.4",
     "mocha": "^6.2.3",
+    "nyc": "^15.1.0",
     "ts-node": "^10.1.0",
     "tslint": "^6.1.3",
     "typescript": "^4.3.5"

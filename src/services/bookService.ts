@@ -3,12 +3,13 @@ import { IBookRequest } from "../interfaces";
 
 export default class BookService {
     async bookCab(request: IBookRequest) {
-        let modifyRequest = {
+        let bookRequest = {
             start: { type: "Point", coordinates: [request.start.longitude, request.start.latitude] },
             end: { type: "Point", coordinates: [request.end.longitude, request.end.latitude] },
-            bookedBy: "909090"
+            bookedBy: request.bookedBy
         }
-        const res = await BookModel.create(modifyRequest);
+        const response = await BookModel.create(bookRequest);
+        return response;
     }
 
     async getBookings(pageOptions: { page: number, limit: number }) {

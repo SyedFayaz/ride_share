@@ -29,3 +29,11 @@ export interface ICab extends Document {
     cabNumber: string;
     currentLocation: IGeoLocation;
 }
+
+export interface INearByCabRequest {
+    latitide: number | string,
+    longitude: number,
+    maxDistance: number,
+    page?: number,
+    limit?: number
+}

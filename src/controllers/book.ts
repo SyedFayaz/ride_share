@@ -1,4 +1,4 @@
-import BookService from "../services/BookService";
+import BookService from "../services/bookService";
 import { IBookRequest } from "../interfaces";
 
 export default class BookController {
@@ -7,10 +7,10 @@ export default class BookController {
         return bookService.bookCab(requestBody);
     }
 
-    public async getBookings(param: any) {
+    public async getBookings(param?: any) {
         let pageOptions = {
-            page: parseInt(param.page) || 0,
-            limit: parseInt(param.limit) || 0
+            page: parseInt(param?.page) || 0,
+            limit: parseInt(param?.limit) || 0
         }
         let bookService = new BookService();
         return bookService.getBookings(pageOptions);

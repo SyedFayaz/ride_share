@@ -2,6 +2,7 @@ import UserModel from "../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const { JWT_SECRET } = process.env;
+
 export default class UserService {
     async signup(user: { email: string, password: string }) {
         try {

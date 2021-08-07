@@ -10,6 +10,7 @@
             "node",
             "mocha",
             "chai",
+            "sinon"
         ],
         "typeRoots": [
             "node_modules/@types"
@@ -19,7 +20,7 @@
         "es2015"
     ],
     "exclude": [
-        "./tests/",
+        "./test/",
         "./node_modules/",
         "./dist/"
     ]
