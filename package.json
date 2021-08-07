@@ -12,7 +12,8 @@
     "build": "tsc",
     "setup": "npm ci && npm run build",
     "test": "mocha -r ts-node/register 'test/**/*.ts'",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc npm run test",
+    "seed": "node seed/index.js"
   },
   "nyc": {
     "extension": [

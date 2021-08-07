@@ -1,4 +1,7 @@
 let fs = require("fs");
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
 /**
 * Generates number of random geolocation points given a center and a radius.
 * @param  {Object} center A JS object with lat and lng attributes.
@@ -46,29 +49,36 @@ function generateRandomPoint(center, radius) {
         coordinates: [longitude, latitude]
     }
     let cabNumber = (Math.random() + 1).toString(36).substring(7);
-    // Resulting point.
     return { cabNumber, currentLocation };
 }
 
-// Usage Example.
-// Generates 100 points that is in a 1km radius from the given lat and lng point.
-var randomGeoPoints = generateRandomPoints({ 'lat': 24.2090903, 'lng': 23.1989882 }, 1000, 50);
-var randomGeoPoints2 = generateRandomPoints({ 'lat': 15.4540505, 'lng': 75.0066516 }, 1000, 50);
-var randomGeoPoints3 = generateRandomPoints({ 'lat': 12.9923035, 'lng': 77.7059399 }, 1000, 50);
 
-randomGeoPoints = randomGeoPoints.concat(randomGeoPoints2).concat(randomGeoPoints3);
-console.log(randomGeoPoints.length)
-fs.writeFileSync('geo.json', JSON.stringify(randomGeoPoints.concat()), 'utf-8');
-
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
 
 async function seedData() {
-    const { stdout, stderr } = await exec('mongoimport -d rideShare -c cabs --file geo.json --jsonArray');
-    const { stdout1, stderr1 } = await exec('mongo < createIndex.js');
-    console.log(stderr, stderr1);
+    await exec('mongoimport -d rideShare -c cabs --file ./seed/geo.json --jsonArray');
+    await exec('mongo < ./seed/createIndex.js');
 }
-(async () => {
-    await seedData();
-})();
 
+function generateLocationData() {
+    // Usage Example.
+    // Generates 50 points that is in a 1km radius from the given lat and lng point.
+    let radiusInMeters = 1000, noOfPoints = 50;
+    var randomGeoPoints = generateRandomPoints({ 'lat': 24.2090903, 'lng': 23.1989882 }, radiusInMeters, noOfPoints);
+    var randomGeoPoints2 = generateRandomPoints({ 'lat': 15.4540505, 'lng': 75.0066516 }, radiusInMeters, noOfPoints);
+    var randomGeoPoints3 = generateRandomPoints({ 'lat': 12.9923035, 'lng': 77.7059399 }, radiusInMeters, noOfPoints);
+
+    randomGeoPoints = randomGeoPoints.concat(randomGeoPoints2).concat(randomGeoPoints3);
+    console.log(`Generated ${randomGeoPoints.length} points`);
+    fs.writeFileSync('./seed/geo.json', JSON.stringify(randomGeoPoints.concat()), 'utf-8');
+}
+
+(async () => {
+    try {
+        generateLocationData();
+        console.log(`Seeding data...`);
+        await seedData();
+        console.log(`Seeded Data Successfully`);
+    } catch (exception) {
+        console.log(`Seeding data failed due to : ${exception}`);
+    }
+})();
