@@ -22,8 +22,7 @@ This application provides REST interface to
    ```sh
    git clone https://github.com/SyedFayaz/ride_share.git
    ```
-2. Create a new .env file and paste contents from .env.example
-Replace value of ENV variables
+2. Create a new .env file and paste contents from .env.example and then replace value of environment variables
    
 3. Install NPM dependencies and build code
    ```sh
